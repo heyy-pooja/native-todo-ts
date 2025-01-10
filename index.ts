@@ -11,7 +11,8 @@ require("dotenv").config()
 
 const app = express()
 app.use(express.json())
-app.use(cors({ origin: "*", credentials: true }))
+app.use(cors())
+app.use(cors({ origin: "https://axoc6g0-mandale_pooja-8081.exp.direct/", credentials: true }))
 app.use('/api/v1/todos', todoRoutes);
 
 app.use("*", (req: Request, res: Response) => {
