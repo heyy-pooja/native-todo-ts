@@ -1,19 +1,18 @@
 import { Error } from "mongoose";
 import { Request, Response } from 'express';
-import { upload } from "../utils/upload";
+// import { upload } from "../utils/upload";
+// import { v2 as cloudinary } from 'cloudinary';
 const asyncHandler = require("express-async-handler")
-import Todo from "../model/Todo";
-import { v2 as cloudinary } from 'cloudinary';
 import dotenv from 'dotenv'
-import { Todo } from "../type/Todo.interface";
+import Todo from "../model/Todo";
 dotenv.config()
 
 
-cloudinary.config({
-    api_key: process.env.CLOUDINARY_API_KEY as string,
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME as string,
-    api_secret: process.env.CLOUDINARY_API_SECRET as string,
-});
+// cloudinary.config({
+//     api_key: process.env.CLOUDINARY_API_KEY as string,
+//     cloud_name: process.env.CLOUDINARY_CLOUD_NAME as string,
+//     api_secret: process.env.CLOUDINARY_API_SECRET as string,
+// });
 export const getTodo = asyncHandler(async (req: Request, res: Response): Promise<void> => {
     try {
         const result = await Todo.find()
@@ -49,13 +48,13 @@ export const getTodo = asyncHandler(async (req: Request, res: Response): Promise
 
 // })
 export const addTodo = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-    const { task, desc }: Todo = req.body;
+    const { task, desc } = req.body;
     await Todo.create({ task, desc });
     res.json({ message: "Add Todos Success" });
 });
 export const updateTodo = asyncHandler(async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
-    const updateData: Partial<Todo> = req.body;
+    const updateData = req.body;
     await Todo.findByIdAndUpdate(id, updateData);
     res.json({ message: "Update Todos Success" });
 });
