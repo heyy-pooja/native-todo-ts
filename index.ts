@@ -11,6 +11,7 @@ require("dotenv").config()
 const app = express()
 app.use(express.json())
 app.use(cors())
+app.use(cors({ origin: true, credentials: true }))
 app.use('/api/v1/todos', todoRoutes);
 
 app.use("*", (req: Request, res: Response) => {
@@ -27,4 +28,3 @@ mongoose.connection.once("open", () => {
         console.log(`Server Running on Port ${process.env.PORT}`)
     })
 })
-
