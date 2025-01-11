@@ -21,6 +21,37 @@ export const getTodo = asyncHandler(async (req: Request, res: Response): Promise
         res.status(500).json({ message: "Todo Fetch failed", error: error instanceof Error ? error.message : error })
     }
 })
+
+export const addTodo = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+    const { task, desc } = req.body;
+    await Todo.create({ task, desc });
+    res.json({ message: "Add Todos Success" });
+});
+export const updateTodo = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params;
+    const updateData = req.body;
+    await Todo.findByIdAndUpdate(id, updateData);
+    res.json({ message: "Update Todos Success" });
+})
+export const deleteTodo = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params;
+    await Todo.findByIdAndDelete(id);
+    res.json({ message: "Delete Todos Success" });
+});
+
+
+
+// export const deleteTodo = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+//     try {
+//         const { id } = req.params
+//         await Todo.findByIdAndDelete(id)
+//         res.status(200).json({ message: "Todo Delete success" });
+//     } catch (error) {
+//         res.status(400).json({ message: "Todo Delete error", error: error instanceof Error ? error.message : error });
+//     }
+// })
+
+
 // export const addTodo = asyncHandler(async (req: Request, res: Response): Promise<void> => {
 //     upload(req, res, async (err) => {
 //         if (err) {
@@ -47,17 +78,7 @@ export const getTodo = asyncHandler(async (req: Request, res: Response): Promise
 //     })
 
 // })
-export const addTodo = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-    const { task, desc } = req.body;
-    await Todo.create({ task, desc });
-    res.json({ message: "Add Todos Success" });
-});
-export const updateTodo = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-    const { id } = req.params;
-    const updateData = req.body;
-    await Todo.findByIdAndUpdate(id, updateData);
-    res.json({ message: "Update Todos Success" });
-});
+
 
 
 // export const updateTodo = asyncHandler(async (req: Request, res: Response): Promise<void> => {
@@ -82,13 +103,3 @@ export const updateTodo = asyncHandler(async (req: Request, res: Response): Prom
 //     })
 
 // })
-
-export const deleteTodo = asyncHandler(async (req: Request, res: Response): Promise<void> => {
-    try {
-        const { id } = req.params
-        await Todo.findByIdAndDelete(id)
-        res.status(200).json({ message: "Todo Delete success" });
-    } catch (error) {
-        res.status(400).json({ message: "Todo Delete error", error: error instanceof Error ? error.message : error });
-    }
-})
